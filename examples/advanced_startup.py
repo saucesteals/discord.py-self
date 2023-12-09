@@ -7,9 +7,9 @@ import os
 
 from typing import List, Optional
 
-import asyncpg  # asyncpg is not a dependency of the discord.py, and is only included here for illustrative purposes.
-import discord
-from discord.ext import commands
+import asyncpg  # asyncpg is not a dependency of the selfcord.py, and is only included here for illustrative purposes.
+import selfcord
+from selfcord.ext import commands
 from aiohttp import ClientSession
 
 
@@ -41,7 +41,7 @@ class CustomBot(commands.Bot):
         # In this case, we are using this to ensure that once we are connected, we sync for the testing guild.
         # You should not do this for every guild or for global sync, those should only be synced when changes happen.
         if self.testing_guild_id:
-            guild = discord.Object(self.testing_guild_id)
+            guild = selfcord.Object(self.testing_guild_id)
             # We'll copy in the global commands to test with:
             self.tree.copy_global_to(guild=guild)
             # followed by syncing to the testing guild.
@@ -65,7 +65,7 @@ async def main():
     logger.setLevel(logging.INFO)
 
     handler = logging.handlers.RotatingFileHandler(
-        filename='discord.log',
+        filename='selfcord.log',
         encoding='utf-8',
         maxBytes=32 * 1024 * 1024,  # 32 MiB
         backupCount=5,  # Rotate through 5 files
@@ -76,7 +76,7 @@ async def main():
     logger.addHandler(handler)
 
     # Alternatively, you could use:
-    # discord.utils.setup_logging(handler=handler, root=False)
+    # selfcord.utils.setup_logging(handler=handler, root=False)
 
     # One of the reasons to take over more of the process though
     # is to ensure use with other libraries or tools which also require their own cleanup.
